@@ -20,6 +20,18 @@ make setup
 ```
 После выполнения откройте Airflow UI (localhost:8080) (логин: airflow, пароль: airflow)
 
+### Запуск отдельно спарк задания и полезные команды после
+
+```bash
+make build-spark-image
+docker run -d --name spark_app spark-compaction-app:latest tail -f /dev/null
+docker exec -it spark_app bash
+export TARGET_SIZE_MB_PER_FILES=50
+export DATA_PATH=./data
+python3 spark_app.py
+ls -l --block-size=M ./data/
+```
+
 ### Структура проекта
 ```
 airflow_spark_compaction/
