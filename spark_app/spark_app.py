@@ -50,7 +50,7 @@ def main(target_size_mb_per_files: int, data_path: str):
 
 def compact(target_size_mb_per_files: int, data_path: str, spark: SparkSession):
     current_data_path_size_mb = calculate_directory_size(data_path) / 1024 ** 2
-    target_qty_files = int(current_data_path_size_mb / target_size_mb_per_files)
+    target_qty_files = round(current_data_path_size_mb / target_size_mb_per_files)
     spark.read.parquet(data_path).repartition(target_qty_files) \
         .write.mode("overwrite") \
         .option("compression", "uncompressed") \
